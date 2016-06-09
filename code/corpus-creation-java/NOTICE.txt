@@ -1,0 +1,21 @@
+
+
+-----------------------------------------------------------------------
+ 3rd party libraries
+-----------------------------------------------------------------------
+
+package .argumentation.convincingness.mace
+
+MACE: Multi-Annotator Competence Estimation
+
+is licensed under NTP license
+
+https://opensource.org/licenses/NTP
+
+-----------------------------------------------------------------------
+
+package de.normalisiert.utils.graphs
+
+is licensed under BSD-2 license
+
+Copyright (c) 2012, Frank Meyer
