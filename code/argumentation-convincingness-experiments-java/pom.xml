@@ -23,7 +23,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ukp-argumentation-experiments</groupId>
-	<artifactId>convincingness</artifactId>
+	<artifactId>argumentation-convincingness-experiments-java</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 
