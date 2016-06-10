@@ -77,6 +77,11 @@
 			<artifactId>de.tudarmstadt.ukp.dkpro.core.api.sentiment-asl</artifactId>
 			<version>${dkpro.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.io.bincas-asl</artifactId>
+			<version>${dkpro.version}</version>
+		</dependency>
 	</dependencies>
 
 

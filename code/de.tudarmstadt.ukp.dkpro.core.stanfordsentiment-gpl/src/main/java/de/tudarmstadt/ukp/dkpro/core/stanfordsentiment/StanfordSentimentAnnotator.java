@@ -18,7 +18,10 @@
 
 package de.tudarmstadt.ukp.dkpro.core.stanfordsentiment;
 
+import de.tudarmstadt.ukp.dkpro.core.api.resources.CompressionMethod;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Sentence;
+import de.tudarmstadt.ukp.dkpro.core.io.bincas.BinaryCasReader;
+import de.tudarmstadt.ukp.dkpro.core.io.bincas.BinaryCasWriter;
 import de.tudarmstadt.ukp.dkpro.core.sentiment.type.StanfordSentimentAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations;
@@ -31,11 +34,15 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.fit.component.JCasAnnotator_ImplBase;
 import org.apache.uima.fit.descriptor.TypeCapability;
+import org.apache.uima.fit.factory.AnalysisEngineFactory;
+import org.apache.uima.fit.factory.CollectionReaderFactory;
+import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.fit.util.JCasUtil;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.ejml.simple.SimpleMatrix;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -109,4 +116,32 @@ public class StanfordSentimentAnnotator
             }
         }
     }
+
+    public static void main(String[] args)
+            throws Exception
+    {
+        File inputDir = new File(args[0]);
+        File outputDir = new File(args[1]);
+
+        SimplePipeline.runPipeline(
+                CollectionReaderFactory.createReaderDescription(
+                        BinaryCasReader.class,
+                        BinaryCasReader.PARAM_SOURCE_LOCATION, inputDir,
+                        BinaryCasReader.PARAM_PATTERNS,
+                        BinaryCasReader.INCLUDE_PREFIX + "*.bz2"
+                ),
+
+                // Sentiment
+                AnalysisEngineFactory.createEngineDescription(StanfordSentimentAnnotator.class),
+
+                AnalysisEngineFactory.createEngineDescription(
+                        BinaryCasWriter.class,
+                        BinaryCasWriter.PARAM_TARGET_LOCATION,
+                        outputDir,
+                        BinaryCasWriter.PARAM_COMPRESSION,
+                        CompressionMethod.BZIP2
+                )
+        );
+    }
+
 }

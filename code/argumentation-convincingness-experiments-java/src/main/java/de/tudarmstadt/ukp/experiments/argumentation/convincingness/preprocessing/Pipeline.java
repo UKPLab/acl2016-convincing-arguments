@@ -21,19 +21,16 @@ package de.tudarmstadt.ukp.experiments.argumentation.convincingness.preprocessin
 import de.tudarmstadt.ukp.dkpro.core.api.resources.CompressionMethod;
 import de.tudarmstadt.ukp.dkpro.core.api.segmentation.type.Paragraph;
 import de.tudarmstadt.ukp.dkpro.core.io.bincas.BinaryCasWriter;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
-import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.*;
 import de.tudarmstadt.ukp.dkpro.core.tokit.ParagraphSplitter;
+import de.tudarmstadt.ukp.experiments.argumentation.convincingness.io.ArgumentPairReader;
+import de.tudarmstadt.ukp.experiments.argumentation.convincingness.io.RankedArgumentReader;
 import org.apache.uima.UIMAException;
 import org.apache.uima.analysis_engine.AnalysisEngineDescription;
 import org.apache.uima.fit.factory.AnalysisEngineFactory;
 import org.apache.uima.fit.factory.CollectionReaderFactory;
 import org.apache.uima.fit.pipeline.SimplePipeline;
 import org.apache.uima.resource.ResourceInitializationException;
-import de.tudarmstadt.ukp.experiments.argumentation.convincingness.io.ArgumentPairReader;
-import de.tudarmstadt.ukp.experiments.argumentation.convincingness.io.RankedArgumentReader;
 
 import java.io.IOException;
 
@@ -56,6 +53,9 @@ public class Pipeline
                         StanfordSegmenter.class,
                         StanfordSegmenter.PARAM_ZONE_TYPES,
                         Paragraph.class.getCanonicalName()
+                ),
+                AnalysisEngineFactory.createEngineDescription(
+                        StanfordLemmatizer.class
                 ),
                 AnalysisEngineFactory.createEngineDescription(
                         StanfordPosTagger.class
@@ -109,7 +109,7 @@ public class Pipeline
     public static void main(String[] args)
             throws IOException, UIMAException
     {
-//        processDataPairs(args[0], args[1]);
+        //        processDataPairs(args[0], args[1]);
         processDataRank(args[0], args[1]);
     }
 }
