@@ -18,27 +18,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>de.tudarmstadt.ukp.dkpro.core-asl</artifactId>
-		<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
-		<version>1.7.0</version>
-	</parent>
 
+	<properties>
+		<uima.version>2.6.0</uima.version>
+		<uimafit.version>2.1.0</uimafit.version>
+		<dkpro.version>1.7.0</dkpro.version>
+	</properties>
+
+	<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 	<artifactId>de.tudarmstadt.ukp.dkpro.core.api.sentiment-asl</artifactId>
+	<version>1.7.0</version>
 
 	<name>DKPro Core - Sentiment API</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.uima</groupId>
 			<artifactId>uimaj-core</artifactId>
+			<version>${uima.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.uima</groupId>
 			<artifactId>uimafit-core</artifactId>
+			<version>${uimafit.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
 			<artifactId>de.tudarmstadt.ukp.dkpro.core.api.segmentation-asl</artifactId>
+			<version>${dkpro.version}</version>
 		</dependency>
 	</dependencies>
 
