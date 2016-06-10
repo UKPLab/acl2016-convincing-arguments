@@ -1,5 +1,7 @@
 /*
- * Copyright 2016 XXX
+ * Copyright 2016
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +38,7 @@ import java.util.regex.Pattern;
  * User-generated content (arguments) are licenced under Creative Commons Public Domain License
  * (see {@code www.convinceme.net/terms})
  * <p/>
- * @author AUTHOR_HIDDEN
+ * @author Ivan Habernal
  */
 public class ConvinceMeNetParser
         implements DebateParser

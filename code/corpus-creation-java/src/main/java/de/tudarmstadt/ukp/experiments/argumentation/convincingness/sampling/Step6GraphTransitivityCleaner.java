@@ -1,5 +1,7 @@
 /*
- * Copyright 2016 XXX
+ * Copyright 2016
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +45,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @author AUTHOR_HIDDEN
+ * @author Ivan Habernal
  */
 public class Step6GraphTransitivityCleaner
 {

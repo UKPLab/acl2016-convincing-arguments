@@ -1,5 +1,7 @@
 /*
- * Copyright 2016 XXX
+ * Copyright 2016
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +21,7 @@ package de.tudarmstadt.ukp.experiments.argumentation.convincingness.sampling;
 /**
  * Equals and hashCode are only determined by arg1.id and arg2.id
  *
- * @author AUTHOR_HIDDEN
+ * @author Ivan Habernal
  */
 public class GeneratedArgumentPair
         extends AnnotatedArgumentPair
