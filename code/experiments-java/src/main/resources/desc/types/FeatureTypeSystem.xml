@@ -22,7 +22,7 @@
 	<vendor>XXX</vendor>
 	<types>
 		<typeDescription>
-			<name>xxx.convincingness.AdHocFeature</name>
+			<name>de.tudarmstadt.ukp.experiments.argumentation.convincingness.AdHocFeature</name>
 			<description>xxx</description>
 			<supertypeName>uima.tcas.Annotation</supertypeName>
 			<features>
