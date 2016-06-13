@@ -61,7 +61,131 @@ The `data` directory contains the following sub-folders
 * `UKPConvArg1Strict-CSV`
     * The same as `UKPConvArg1Strict-XML` but exported into tab-delimited CSV with ID, more convincing argument label (a1 or a2) and both arguments (a1, tab, a2)
 
-Data are licensed under CC-BY-SA; the arguments originate from createdebate.com and convinceme.net (both licensed under CC-BY license).
+The data are licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC-BY (Creative Commons Attribution 4.0 International License)</a>. 
+
+The source arguments originate from
+* [createdebate.com](http://www.createdebate.com) licensed under [CC-BY](http://creativecommons.org/licenses/by/3.0/)
+* [convinceme.net](http://convinceme.net) licensed under [Creative Commons Public Domain License](https://creativecommons.org/licenses/publicdomain/)
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+
+### Data formats
+
+#### XML
+
+Both `UKPConvArg1-full-XML` and `UKPConvArg1Strict-XML` have the same XML format. Here is a commented excerpt from the `evolution-vs-creation_evolution.xml` file.
+
+```XML
+<?xml version="1.0"?>
+<list>                                                                     <!-- the root element -->
+  <annotatedArgumentPair>                             <!-- is a list of annotated argument pairs -->
+    <id>803_794</id>                                <!-- id of the first and the second argument -->
+    <arg1>                                            <!-- first argument with original metadata -->
+      <author>http://www.convinceme.net/profile/318/seanohagan.html</author>
+      <voteUpCount>0</voteUpCount>
+      <voteDownCount>0</voteDownCount>
+      <stance>Evolution</stance>
+      <text>I have to contradict phro and say that the peppered moths do show evidence of evolution.
+       The data may have been insufficient, but evolution did occur.
+       When different alleles are expressed due to external factors, this is evolution.</text>
+      <id>803</id>
+      <!-- some files also have "originalHTML" element with the text in escaped HTML -->
+    </arg1>
+    <arg2>                                           <!-- second argument with original metadata -->
+      <author>http://www.convinceme.net/profile/633/yolei36.html</author>
+      <voteUpCount>0</voteUpCount>
+      <voteDownCount>0</voteDownCount>
+      <stance>Evolution</stance>
+      <text>You can actually see evolution happen. Fruit Flies are quite useful for this experiment
+        since the breed, live, and die so quickly. You have to understand evolution happens because
+        of mutations and they survive because those mutations have made it easier for the creature
+        to survive then the others. ie. natural selection. Speciation is also an example of
+        evolution... different species come about because they have adapted to a slightly different
+        enviroment. If you look you can see evolution</text>
+      <id>794</id>
+    </arg2>
+    <debateMetaData>                                              <!-- metadata about the debate -->
+      <title>Evolution vs. Creation</title>
+      <url>http://www.convinceme.net/debates/90/Evolution-vs-Creation.html</url>
+      <!-- some debates also have a textual "description" element -->      
+    </debateMetaData>
+    <mTurkAssignments>                              <!-- five Amazon Mechanical Turk assignments -->
+      <mTurkAssignment>
+        <turkID>A365TVEXXLHT2U</turkID>
+        <hitID>311HQEI8RSS2Z8RYBJEC3U2W0M5Z78</hitID>
+        <assignmentAcceptTime>2016-02-22 21:40:51.0 UTC</assignmentAcceptTime>
+        <assignmentSubmitTime>2016-02-22 21:46:33.0 UTC</assignmentSubmitTime>
+        <!-- value selected by the worker; "a1" means argument 1 is more convincing, "a2" means -->
+        <!-- argument 2 is more convincing, "equal" means they are equally convincing -->
+        <!-- (note that equal does not occur in the "Strict" corpus) -->
+        <value>a2</value>
+        <!-- Explanation written by the worker -->
+        <reason>A2 provides a more in depth explanation of how to identify evolution.</reason>
+        <assignmentId>3K772S5NP9N43M37I7RDXHMSEWHEHU</assignmentId>
+        <turkRank>432</turkRank>                                <!-- overall rank of this worker -->
+        <turkCompetence>0.9971903929844271</turkCompetence>   <!-- worker's competence from MACE -->
+        <workerStance>none</workerStance>    <!-- worker's stance; "opposite", "same", or "none" -->
+      </mTurkAssignment>
+      <mTurkAssignment>
+        <turkID>A1LNZS1KNSREZB</turkID>
+        <hitID>311HQEI8RSS2Z8RYBJEC3U2W0M5Z78</hitID>
+        <!-- and so on... -->
+      </mTurkAssignment>
+      <!-- and so on... -->
+    </mTurkAssignments>
+    <!-- estimated gold label for this pair (which arg is more convincing) -->
+    <goldLabel>a2</goldLabel>
+  </annotatedArgumentPair>
+  <!-- and so on... -->
+</list>
+```
+
+The XML structure can be easily accessed by the corresponding Java classes, such as
+
+* `DebateMetaData`
+* `Argument`
+
+from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.createdebate`
+
+and
+
+* `AnnotatedArgumentPair`
+* `MTurkAssignment`
+
+from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.sampling`.
+
+In fact, each single file is a serialized `List` of `AnnotatedArgumentPair` instances using XStream.
+The whole corpus can be thus loaded by
+
+```Java
+Collection<File> files = IOHelper.listXmlFiles(new File(inputDir));
+
+for (File file : files) {
+    List<AnnotatedArgumentPair> argumentPairs =
+        (List<AnnotatedArgumentPair>) XStreamTools.getXStream().fromXML(file);
+    // do whatever you want
+}
+```
+
+See for example `Step7aLearningDataProducer` in `de.tudarmstadt.ukp.experiments.argumentation.convincingness.sampling`. 
+
+#### CSV
+
+CSV files are generated from XML files by `Step7aLearningDataProducer`. An example from `evolution-vs-creation_evolution.csv`:
+
+```
+#id	label	a1	a2
+778_80854	a2	Life has been around for ...	Science can prove that ... <br/> The big ...
+...
+```
+
+* The first line is a comment
+* Each line is then a single argument pair, tab-separated
+    * Pair ID (first argument ID, second argument ID)
+    * Gold label (which one is more convincing)
+    * Text of argument 1
+    * Text of argument 2
+        * Line breaks are encoded as `<br/>`
 
 ## Requirements
 
