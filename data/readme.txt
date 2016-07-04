@@ -1,10 +1,12 @@
-# Which argument is more convincing? Analyzing and predicting convincingness of Web arguments using bidirectional LSTM
+# UKPConvArg1 Corpus Readme
 
-WORK IN PROGRESS
+ACL 2016 Article: "Which argument is more convincing? Analyzing and predicting convincingness
+of Web arguments using bidirectional LSTM"
 
-Source code, data, and supplementary materials for our ACL 2016 article. Please use the following citation:
+(Latest change: 2016-06-13)
 
-```
+Please use the following citation:
+
 @inproceedings{Habernal.Gurevych.2016.ACL,
   author    = {Ivan Habernal and Iryna Gurevych},
   title     = {{Which argument is more convincing? Analyzing and predicting convincingness
@@ -18,9 +20,8 @@ Source code, data, and supplementary materials for our ACL 2016 article. Please 
   publisher = {Association for Computational Linguistics},
   url       = {https://www.ukp.tu-darmstadt.de/publications/details/?tx_bibtex_pi1[pub_id]=TUD-CS-2016-0104}
 }
-```
 
-> **Abstract:** We propose a new task in the field of computational argumentation in which we
+Abstract: We propose a new task in the field of computational argumentation in which we
 investigate qualitative properties of Web arguments, namely their convincingness. We cast the
 problem as relation classification, where a pair of arguments having the same stance to the same
 prompt is judged. We annotate a large datasets of 16k pairs of arguments over 32 topics and
@@ -32,50 +33,44 @@ feature-rich SVM and bidirectional LSTM and obtain 0.76-0.78 accuracy and 0.35-0
 correlation in a cross-topic evaluation. We release the newly created corpus UKPConvArg1 and the
 experimental software under open licenses.
 
-
-* **Contact person:** Ivan Habernal, habernal@ukp.informatik.tu-darmstadt.de
+Contact person: Ivan Habernal, habernal@ukp.informatik.tu-darmstadt.de
     * UKP Lab: http://www.ukp.tu-darmstadt.de/
     * TU Darmstadt: http://www.tu-darmstadt.de/
 
-Don't hesitate to send me an e-mail or report an issue, if something is broken (and it shouldn't be) or if you have further questions.
-
-For license information, see LICENSE files in `code/*` and `NOTICE.txt`.
-
-> This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication. 
-
-## Project structure
-
-* `code` &mdash; Experimental source codes
-* `data` &mdash; *UKPConvArg1* corpus
+See the related source codes at GitHub: https://github.com/UKPLab/acl2016-convincing-arguments
 
 ## Data description
 
 The `data` directory contains the following sub-folders
 
 * `UKPConvArg1-full-XML`
-    * This is the full corpus as referred in the article (Table 2, UKPConvArgAll). It contains 32 xml files, each file corresponding to one debate/side. Total number of argument pairs is 16,081. 
+    * This is the full corpus as referred in the article (Table 2, UKPConvArgAll). It contains
+    32 xml files, each file corresponding to one debate/side. Total number of argument pairs
+    is 16,081.
 * `UKPConvArg1-Ranking-CSV`
-    * Exported tab-delimited file with 1,052 arguments with their ID, rank score, and text (Table 2, UKPConvArgRank)
+    * Exported tab-delimited file with 1,052 arguments with their ID, rank score, and text
+    (Table 2, UKPConvArgRank)
 * `UKPConvArg1Strict-XML`
-    * Cleaned version used for experiments in the article (Table 2, UKPConvArgSctrict). It contains 11,650 argument pairs in 32 XML files.
+    * Cleaned version used for experiments in the article (Table 2, UKPConvArgSctrict). It
+    contains 11,650 argument pairs in 32 XML files.
 * `UKPConvArg1Strict-CSV`
-    * The same as `UKPConvArg1Strict-XML` but exported into tab-delimited CSV with ID, more convincing argument label (a1 or a2) and both arguments (a1, tab, a2)
+    * The same as `UKPConvArg1Strict-XML` but exported into tab-delimited CSV with ID, more
+    convincing argument label (a1 or a2) and both arguments (a1, tab, a2)
 
-The data are licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC-BY (Creative Commons Attribution 4.0 International License)</a>. 
+The data are licensed under CC-BY (Creative Commons Attribution 4.0 International License).
 
 The source arguments originate from
-* [createdebate.com](http://www.createdebate.com) licensed under [CC-BY](http://creativecommons.org/licenses/by/3.0/)
-* [convinceme.net](http://convinceme.net) licensed under [Creative Commons Public Domain License](https://creativecommons.org/licenses/publicdomain/)
-
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+* http://www.createdebate.com licensed under CC-BY (http://creativecommons.org/licenses/by/3.0/)
+* http://convinceme.net licensed under Creative Commons Public Domain License
+  (https://creativecommons.org/licenses/publicdomain/)
 
 ### Data formats
 
 #### XML
 
-Both `UKPConvArg1-full-XML` and `UKPConvArg1Strict-XML` have the same XML format. Here is a commented excerpt from the `evolution-vs-creation_evolution.xml` file.
+Both `UKPConvArg1-full-XML` and `UKPConvArg1Strict-XML` have the same XML format. Here is a
+commented excerpt from the `evolution-vs-creation_evolution.xml` file.
 
-```XML
 <?xml version="1.0"?>
 <list>                                                                     <!-- the root element -->
   <annotatedArgumentPair>                             <!-- is a list of annotated argument pairs -->
@@ -107,7 +102,7 @@ Both `UKPConvArg1-full-XML` and `UKPConvArg1Strict-XML` have the same XML format
     <debateMetaData>                                              <!-- metadata about the debate -->
       <title>Evolution vs. Creation</title>
       <url>http://www.convinceme.net/debates/90/Evolution-vs-Creation.html</url>
-      <!-- some debates also have a textual "description" element -->      
+      <!-- some debates also have a textual "description" element -->
     </debateMetaData>
     <mTurkAssignments>                              <!-- five Amazon Mechanical Turk assignments -->
       <mTurkAssignment>
@@ -138,7 +133,7 @@ Both `UKPConvArg1-full-XML` and `UKPConvArg1Strict-XML` have the same XML format
   </annotatedArgumentPair>
   <!-- and so on... -->
 </list>
-```
+
 
 The XML structure can be easily accessed by the corresponding Java classes, such as
 
@@ -167,7 +162,7 @@ for (File file : files) {
 }
 ```
 
-See for example `Step7aLearningDataProducer` in `de.tudarmstadt.ukp.experiments.argumentation.convincingness.sampling`. 
+See for example `Step7aLearningDataProducer` in `de.tudarmstadt.ukp.experiments.argumentation.convincingness.sampling`.
 
 #### CSV
 
@@ -181,79 +176,8 @@ CSV files are generated from XML files by `Step7aLearningDataProducer`. An examp
 
 * The first line is a comment
 * Each line is then a single argument pair, tab-separated
-    * Pair ID (`firstArgumentID_secondArgumentID`)
-    * Gold label (which one is more convincing) &mdash; `a1` or `a2`
+    * Pair ID (first argument ID, second argument ID)
+    * Gold label (which one is more convincing)
     * Text of argument 1
     * Text of argument 2
         * Line breaks are encoded as `<br/>`
-
-## Experiments
-
-### Requirements
-
-* Java 1.7 and higher, Maven (for Java-based experiments)
-* Python 2.7 and `virtualenv` (for Python-based experiments)
-    * GPU is recommended but not required
-* Tested on 64-bit Linux versions
-
-### Deep-learning experiments
-
-* Create and activate a new Python virtual environment (Python 2.7 used as the default interpreter)
-```bash
-$ cd code/argumentation-convincingness-experiments-python
-$ virtualenv env
-New python executable in env/bin/python
-Installing setuptools, pip...done.
-$ source env/bin/activate
-(env)user@x:~/acl2016-convincing-arguments/code/argumentation-convincingness-experiments-python$
-```
-
-* Install requirements
-```bash
-$ python env/bin/pip install -r requirements.txt 
-Downloading/unpacking git+git://github.com/Theano/Theano.git@4e7f550 (from -r requirements.txt (line 4))
-...
-(lots of Fortran and C warnings because of SciPy and NumPy)
-...
-```
-* You should have CUDA installed on your machine for GPU-enabled computation
-    * Refer to http://deeplearning.net/software/theano/install.html
-    * This might get sometimes a bit tricky to install
-
-* Running the first experiment for argument pair prediction
-```bash
-$ THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32,optimizer_including=cudnn \
-python bidirectional_lstm.py ../../data/UKPConvArg1Strict-CSV/
-```
-
-which outputs
-    
-```
-Using Theano backend.
-[...]
-Loading data...
-Loaded 32 files
-Fold name  gay-marriage-right-or-wrong_allowing-gay-marriage-is-right.csv
-22492 train sequences
-404 test sequences
-Pad sequences (samples x time)
-X_train shape: (22492, 300)
-X_test shape: (404, 300)
-Build model...
-Train...
-Epoch 1/5
-12456/22492 [=============================..........] - ...
-...
-SOME RESULTS
-```
-
-* Running the second experiment for argument ranking
-```bash
-$ THEANO_FLAGS=mode=FAST_RUN,device=gpu,floatX=float32,optimizer_including=cudnn \
-python bidirectional_lstm_regression.py ../../data/UKPConvArg1-Ranking-CSV/
-```
-
-
-## Running the experiments
-
-TBD
