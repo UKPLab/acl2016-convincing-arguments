@@ -122,7 +122,7 @@ public class ExtractFeaturesPipeline
             throws Exception
     {
         boolean pairs = args.length > 2 && "true".equals(args[2]);
-        annotateFeaturesBaseline(new File(args[0]), new File(args[1]), pairs);
-//        annotateFeatures(new File(args[0]), new File(args[1]), pairs);
+//        annotateFeaturesBaseline(new File(args[0]), new File(args[1]), pairs);
+        annotateFeatures(new File(args[0]), new File(args[1]), pairs);
     }
 }

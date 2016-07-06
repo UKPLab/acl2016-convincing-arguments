@@ -109,7 +109,7 @@ public class Pipeline
     public static void main(String[] args)
             throws IOException, UIMAException
     {
-        //        processDataPairs(args[0], args[1]);
-        processDataRank(args[0], args[1]);
+        processDataPairs(args[0], args[1]);
+        processDataRank(args[2], args[3]);
     }
 }

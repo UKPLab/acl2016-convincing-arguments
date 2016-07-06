@@ -27,8 +27,7 @@ print('Loading data...')
 # switch to my data
 argv = sys.argv[1:]
 input_folder = argv[0]
-folds, word_index_to_embeddings_map = data_loader.load_my_data(input_folder, nb_words=max_features,
-                                                               add_reversed_training_data=True)
+folds, word_index_to_embeddings_map = data_loader.load_my_data(input_folder, nb_words=max_features)
 
 # print statistics
 for fold in folds.keys():

@@ -1,7 +1,5 @@
 # Which argument is more convincing? Analyzing and predicting convincingness of Web arguments using bidirectional LSTM
 
-WORK IN PROGRESS
-
 Source code, data, and supplementary materials for our ACL 2016 article. Please use the following citation:
 
 ```
@@ -37,9 +35,9 @@ experimental software under open licenses.
     * UKP Lab: http://www.ukp.tu-darmstadt.de/
     * TU Darmstadt: http://www.tu-darmstadt.de/
 
-Don't hesitate to send me an e-mail or report an issue, if something is broken (and it shouldn't be) or if you have further questions.
+Drop me a line or report an issue if something is broken (and shouldn't be) or if you have any questions.
 
-For license information, see LICENSE files in `code/*` and `NOTICE.txt`.
+For license information, see LICENSE files in `code/*/` and `NOTICE.txt`.
 
 > This repository contains experimental software and is published for the sole purpose of giving additional background details on the respective publication. 
 
@@ -208,7 +206,7 @@ $ source env/bin/activate
 (env)user@x:~/acl2016-convincing-arguments/code/argumentation-convincingness-experiments-python$
 ```
 
-* Install requirements
+* Install requirements (might take a few minutes)
 ```bash
 $ python env/bin/pip install -r requirements.txt 
 Downloading/unpacking git+git://github.com/Theano/Theano.git@4e7f550 (from -r requirements.txt (line 4))
@@ -230,22 +228,48 @@ which outputs
     
 ```
 Using Theano backend.
-[...]
+Using gpu device 0: GRID K520 (CNMeM is disabled, CuDNN 4007)
+/home/ubuntu/devel/acl2016-submission/env/local/lib/python2.7/site-packages/theano/tensor/signal/downsample.py:5: UserWarning: downsample module has been moved to the pool module.
+  warnings.warn("downsample module has been moved to the pool module.")
 Loading data...
 Loaded 32 files
-Fold name  gay-marriage-right-or-wrong_allowing-gay-marriage-is-right.csv
-22492 train sequences
-404 test sequences
+Fold name  which-type-of-endeavor-is-better-a-personal-pursuit-or-advancing-the-common-good-_personal-pursuit.csv
+11296 train sequences
+354 test sequences
 Pad sequences (samples x time)
-X_train shape: (22492, 300)
-X_test shape: (404, 300)
+X_train shape: (11296, 300)
+X_test shape: (354, 300)
 Build model...
 Train...
 Epoch 1/5
-12456/22492 [=============================..........] - ...
+11296/11296 [==============================] - 142s - loss: 0.5745     
+Epoch 2/5
+11296/11296 [==============================] - 142s - loss: 0.3129     
+Epoch 3/5
+11296/11296 [==============================] - 142s - loss: 0.2240     
+Epoch 4/5
+11296/11296 [==============================] - 142s - loss: 0.1708     
+Epoch 5/5
+11296/11296 [==============================] - 142s - loss: 0.1386     
+Prediction
+Test accuracy: 0.683615819209
+Wrong predictions: ['arg33053_arg33125', 'arg33070_arg33121', 'arg33101_arg33115', ...
+Fold name  gay-marriage-right-or-wrong_allowing-gay-marriage-is-right.csv
+11246 train sequences
+404 test sequences
 ...
-SOME RESULTS
 ```
+
+* Accuracy is reported for each test fold name along with wrong predictions for error analysis.
+    * Corresponds to Table 3 (0.68 for the row "Personal pursuit or common good? Personal" in this case)
+    * Warning: The numbers produced might be slightly different from those in the paper if a different
+    version of Theano is used. Theano underwent heavy development changes back in February
+    which unfortunately influences the results.
+    I tried to fix it by installing a certain commit of Theano (see the requirements.txt file),
+    but it still doesn't really match the version I used for the paper experiments. Lesson learned:
+    *never* install current master branch (aka development version) from git using `git+git://github.com/Theano/Theano.git` (although this is a suggested installation of
+    "bleeding edge" Theano for Keras!) Always use either release version or a certain commit, e.g.,
+     `git+git://github.com/Theano/Theano.git@rel-0.8.2`. 
 
 * Running the second experiment for argument ranking
 ```bash
@@ -254,6 +278,71 @@ python bidirectional_lstm_regression.py ../../data/UKPConvArg1-Ranking-CSV/
 ```
 
 
-## Running the experiments
+### SVM-based experiments
 
-TBD
+* Install `LIBSVM` ( https://www.csie.ntu.edu.tw/~cjlin/libsvm/ version used: Version 3.21, Dec 2015)
+    * Add `svm-train` and `svm-predict` to `/usr/local/bin/`
+    * Alternatively, adjust the path constant in `SVMLibExperimentRunner`
+* Compile the Java project
+    * `$ cd code/`
+    * `$ mvn package`
+    * `$ cd argumentation-convincingness-experiments-java/target`
+    
+#### Preparing data for SVM
+
+We need to annotate the data with all linguistic features and then export into SVMLIB format.
+ 
+* Run `Pipeline` from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.preprocessing`; parameters:
+    * `data/UKPConvArg1Strict-CSV` (gold standard)
+    * `/some/temp/folder/strict1` (temporary output)
+    * `data/UKPConvArg1-Ranking-CSV` (gold standard)
+    * `/some/temp/folder/ranking1` (temporary output)
+
+* Run `StanfordSentimentAnnotator` from `de.tudarmstadt.ukp.dkpro.core.stanfordsentiment`; parameters:
+    * `/some/temp/folder/strict1` (temporary output from the previous step)
+    * `/some/temp/folder/strict2` (temporary output)
+    * Analogically, run in again with `/some/temp/folder/ranking1 /some/temp/folder/ranking2`
+    
+* Run `ExtractFeaturesPipeline` from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.features`; parameters
+    * `/some/temp/folder/strict2` (temporary output from the previous step)
+    * `/some/temp/folder/strict3` (temporary output)
+    * `true` (this parameter says we need argument pairs)
+    * Analogically, for ranking: `/some/temp/folder/ranking2 /some/temp/folder/ranking3 false`
+    
+* Run `SVMLibExporter` from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.svmlib`; parameters
+    * `/some/temp/folder/strict3` (temporary output from the previous step)
+    * `/some/temp/folder/UKPConvArg1-Strict-libsvm` (output in SVMLIB format)
+    * Analogically, `/some/temp/folder/ranking3 /some/temp/folder/UKPConvArg1-Ranking-libsvm` for ranking using `LIBSVMRegressionFileProducer`
+    
+#### Running the experiments
+
+* Run `SVMLibExperimentRunner` from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.svmlib`
+    * Parameter: `/some/temp/folder/UKPConvArg1-Strict-libsvm` (output from the previous step)
+    
+Output:
+```
+user@ubuntu:~/acl2016-convincing-arguments/code/argumentation-convincingness-experiments-java$ java -cp target/argumentation-convincingness-experiments-java-1.0-SNAPSHOT.jar:target/lib/* de.tudarmstadt.ukp.experiments.argumentation.convincingness.svmlib.SVMLibExperimentRunner /tmp/UKPConvArg1-Strict-libsvm
+Training files size: 31
+Test file: /tmp/UKPConvArg1-Strict-libsvm/christianity-or-atheism-_christianity.libsvm.txt
+Training...
+Running
+/usr/local/bin/svm-train /tmp/training6947586292572191419.libsvm.txt /tmp/christianity-or-atheism-_christianity.libsvm.txt478591432284640112.model
+....
+WARNING: using -h 0 may be faster
+*.*
+optimization finished, #iter = 5663
+nu = 0.476407
+obj = -5087.572013, rho = 0.072998
+nSV = 5612, nBSV = 5244
+Total nSV = 5612
+Done.
+Running
+/usr/local/bin/svm-predict /tmp/UKPConvArg1-Strict-libsvm/christianity-or-atheism-_christianity.libsvm.txt /tmp/christianity-or-atheism-_christianity.libsvm.txt478591432284640112.model /tmp/test_pred5567075616977838561.txt
+Accuracy = 67.8161% (177/261) (classification)
+Wrong predictions
+christianity-or-atheism-_christianity_arg230311_arg230910_a1, [...] 
+[...]
+```
+* It outputs accuracy for each test fold (corresponds to Table 3) as well as wrong predictions for error analysis
+
+Ranking runs analogically using `SVMLibRegressionExperimentRunner` from `de.tudarmstadt.ukp.experiments.argumentation.convincingness.svmlib.regression`
