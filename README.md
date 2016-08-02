@@ -8,13 +8,12 @@ Source code, data, and supplementary materials for our ACL 2016 article. Please 
   title     = {{Which argument is more convincing? Analyzing and predicting convincingness
                of Web arguments using bidirectional LSTM}},
   booktitle = {Proceedings of the 54th Annual Meeting of the Association for Computational
-               Linguistics (ACL 2016)},
-  volume    = {Volume 1: Long Papers},
+              Linguistics (Volume 1: Long Papers)},
   year      = {2016},
   address   = {Berlin, Germany},
-  pages     = {(to appear)},
+  pages     = {1589--1599},
   publisher = {Association for Computational Linguistics},
-  url       = {https://www.ukp.tu-darmstadt.de/publications/details/?tx_bibtex_pi1[pub_id]=TUD-CS-2016-0104}
+  url       = {http://www.aclweb.org/anthology/P16-1150}
 }
 ```
 
