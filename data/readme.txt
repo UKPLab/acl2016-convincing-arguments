@@ -3,7 +3,7 @@
 ACL 2016 Article: "Which argument is more convincing? Analyzing and predicting convincingness
 of Web arguments using bidirectional LSTM"
 
-(Latest change: 2016-06-13)
+(Latest change: 2016-08-02)
 
 Please use the following citation:
 
